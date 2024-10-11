@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
+// import MobileNav from "@/components/ui/MobileNav";
+// import Sidebar from "@/components/ui/Sidebar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ibmPlexSerif = IBM_Plex_Serif({
@@ -22,9 +24,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const loggedIn = { firstName: "Pengu", lastName: "Sama" };
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
+        {/* <MobileNav user={loggedIn} /> */}
         {children}
       </body>
     </html>
