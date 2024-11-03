@@ -51,7 +51,7 @@ export const signIn = async ({ email, password }: LoginUser) => {
 
     const user = await getUserInfo({ userId: response.userId });
 
-    return parseStringify(response);
+    return parseStringify(user);
   } catch (error) {
     console.log("SIGN KA ERROR = ", error);
   }
@@ -186,7 +186,7 @@ export const exchangePublicToken = async ({
 
     const accessToken = response.data.access_token;
     const itemId = response.data.item_id;
-    
+
     // Get account information from Plaid using the access token
     const accountsResponse = await plaidClient.accountsGet({
       access_token: accessToken,
@@ -201,16 +201,18 @@ export const exchangePublicToken = async ({
       processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
     };
 
-    const processorTokenResponse = await plaidClient.processorTokenCreate(request);
+    const processorTokenResponse = await plaidClient.processorTokenCreate(
+      request
+    );
     const processorToken = processorTokenResponse.data.processor_token;
 
-     // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
-     const fundingSourceUrl = await addFundingSource({
+    // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
+    const fundingSourceUrl = await addFundingSource({
       dwollaCustomerId: user.dwollaCustomerId,
       processorToken,
       bankName: accountData.name,
     });
-    
+
     // If the funding source URL is not created, throw an error
     if (!fundingSourceUrl) throw Error;
 
@@ -234,7 +236,7 @@ export const exchangePublicToken = async ({
   } catch (error) {
     console.error("An error occurred while creating exchanging token:", error);
   }
-}
+};
 export async function getBanks({ userId }: getBanksProps) {
   try {
     const { database } = await createAdminClient();
@@ -267,8 +269,9 @@ export async function getBank({ documentId }: getBankProps) {
   }
 }
 
-
-export async function getBankByAccountId({ accountId }: getBankByAccountIdProps) {
+export async function getBankByAccountId({
+  accountId,
+}: getBankByAccountIdProps) {
   try {
     const { database } = await createAdminClient();
 
@@ -277,7 +280,7 @@ export async function getBankByAccountId({ accountId }: getBankByAccountIdProps)
       BANK_COLLECTION_ID!,
       [Query.equal("accountId", [accountId])]
     );
-    if(bank.total !== 1) return null
+    if (bank.total !== 1) return null;
     return parseStringify(bank.documents[0]);
   } catch (error) {
     console.log("GETBANK ERROR =", error);
