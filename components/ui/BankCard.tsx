@@ -2,6 +2,7 @@ import { formatAmount } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Copy from "./Copy";
 
 const BankCard = ({
   account,
@@ -10,12 +11,13 @@ const BankCard = ({
 }: CreditCardProps) => {
   return (
     <div className="flex flex-col">
-      <Link href={"/"} className="bank-card">
+      <Link
+        href={`/transaction-history/?id=${account.appwriteItemId}`}
+        className="bank-card"
+      >
         <div className="bank-card_content">
           <div>
-            <h1 className="text-16 font-semibold text-white">
-              {userName}
-            </h1>
+            <h1 className="text-16 font-semibold text-white">{account.name}</h1>
             <p className="font-ibm-plex-serif font-black text-white">
               {formatAmount(account.currentBalance)}
             </p>
@@ -32,12 +34,25 @@ const BankCard = ({
         </div>
 
         <div className="bank-card_icon">
-            <Image src={"/icons/Paypass.svg"} width={20} height={24} alt="pay"/>
-            <Image src={"/icons/mastercard.svg"} width={45} height={32} alt="mastercard" className="ml-5"/>
+          <Image src={"/icons/Paypass.svg"} width={20} height={24} alt="pay" />
+          <Image
+            src={"/icons/mastercard.svg"}
+            width={45}
+            height={32}
+            alt="mastercard"
+            className="ml-5"
+          />
         </div>
 
-        <Image src={"/icons/lines.svg"} width={316} height={190} alt="lines" className="absolute top-0 left-0"/>
+        <Image
+          src={"/icons/lines.svg"}
+          width={316}
+          height={190}
+          alt="lines"
+          className="absolute top-0 left-0"
+        />
       </Link>
+      {showBalance && <Copy title={account?.shareableId} />}
     </div>
   );
 };

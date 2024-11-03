@@ -6,11 +6,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import Footer from "./Footer";
+import PlaidLink from "./PlaidLink";
 
 function Sidebar({ user }: SiderbarProps) {
   const pathname = usePathname();
 
-  console.log(user);
   return (
     <section className="sidebar">
       <nav className="flex flex-col gap-4">
@@ -52,7 +52,7 @@ function Sidebar({ user }: SiderbarProps) {
           );
         })}
 
-        USER
+        <PlaidLink user={user } />
       </nav>
       <Footer user={user} type="mobile" />
     </section>

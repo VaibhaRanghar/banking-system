@@ -15,7 +15,7 @@ import Footer from "./Footer";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
-  console.log(user);
+
   return (
     <section className="w-full max-w-[264px]">
       <Sheet>

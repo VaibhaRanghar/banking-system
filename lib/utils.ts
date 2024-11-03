@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-prototype-builtins */
 import { type ClassValue, clsx } from "clsx";
-import qs from "querystring";
+import queryString from "query-string";
+
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
@@ -89,11 +91,11 @@ interface UrlQueryParams {
 }
 
 export function formUrlQuery({ params, key, value }: UrlQueryParams) {
-  const currentUrl = qs.parse(params);
+  const currentUrl = queryString.parse(params);
 
   currentUrl[key] = value;
 
-  return qs.stringifyUrl(
+  return queryString.stringifyUrl(
     {
       url: window.location.pathname,
       query: currentUrl,
@@ -137,7 +139,7 @@ export function countTransactionCategories(
   let totalCount = 0;
 
   // Iterate over each transaction
-  transactions &&
+  const transactionIterations = transactions &&
     transactions.forEach((transaction) => {
       // Extract the category from the transaction
       const category = transaction.category;
