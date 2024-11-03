@@ -26,6 +26,13 @@ const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  function getRandomNumber(length: number) {
+    const num = Math.floor(
+      Math.pow(10, length - 1) + Math.random() * 9 * Math.pow(10, length - 1)
+    );
+
+    return num + "";
+  }
   const formSchema = authFormSchema(type);
 
   // 1. Define your form.
@@ -46,20 +53,27 @@ const AuthForm = ({ type }: { type: string }) => {
 
     try {
       if (type === "sign-up") {
+        const ssn = getRandomNumber(9);
+
+        const p_code = getRandomNumber(5);
         const userData = {
           firstName: data.firstName!,
           lastName: data.lastName!,
           address1: data.address1!,
-          city: data.city!,
-          state: data.state!,
-          postalCode: data.postalCode!,
+          city: "New York City",
+          state: "NY",
+          postalCode: p_code,
           dateOfBirth: data.dateOfBirth!,
-          ssn: data.ssn!,
+          ssn: ssn,
           email: data.email!,
           password: data.password!,
         };
+        console.log("USERRRRRRRDATAAAAAA= ", userData);
         const newUser = await signUp(userData);
         setUser(newUser);
+        router.refresh();
+        router.push("/");
+        router.refresh();
       }
 
       if (type === "sign-in") {
@@ -68,7 +82,11 @@ const AuthForm = ({ type }: { type: string }) => {
           password: data.password,
         });
 
-        if (response) router.push("/");
+        if (response) {
+          router.refresh();
+          router.push("/");
+          router.refresh();
+        }
       }
     } catch (error) {
       console.log("AUTH FORM KA ERROR", error);

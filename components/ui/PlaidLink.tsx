@@ -28,11 +28,12 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string) => {
-      await exchangePublicToken({
-        publicToken: public_token,
-        user,
-      });
+      console.log("ROUTEEEEE PUSHHHHHHHHHHH");
       router.push("/");
+      // await exchangePublicToken({
+      //   publicToken: public_token,
+      //   user,
+      // });
     },
     [user]
   );
@@ -46,7 +47,10 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
     <>
       {variant === "primary" ? (
         <Button
-          onClick={() => open()}
+          onClick={() => {
+            open();
+            router.push("/");
+          }}
           disabled={!ready}
           className="plaidlink-primary"
         >
@@ -54,7 +58,10 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
         </Button>
       ) : variant === "ghost" ? (
         <Button
-          onClick={() => open()}
+          onClick={() => {
+            open();
+            router.push("/");
+          }}
           variant={"ghost"}
           className="plaidlink-ghost"
         >
@@ -64,10 +71,18 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
             width={24}
             height={24}
           />{" "}
-          <p className=" hidden text-[16px] font-semibold text-black-2 xl:block">Connect Bank</p>
+          <p className=" hidden text-[16px] font-semibold text-black-2 xl:block">
+            Connect Bank
+          </p>
         </Button>
       ) : (
-        <Button onClick={() => open()} className="plaidlink-default">
+        <Button
+          onClick={() => {
+            open();
+            router.push("/");
+          }}
+          className="plaidlink-default"
+        >
           <Image
             src={"/icons/connect-bank.svg"}
             alt="connect bank"
